@@ -64,5 +64,12 @@ module DataEngineering
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.generators do |g|
+      # Use rspec when generating stuff
+      g.test_framework :rspec
+      g.view_specs false # I'll use cucumber for this
+      g.helper_specs false # I'll create these by hand when I need 'em
+    end
   end
 end
