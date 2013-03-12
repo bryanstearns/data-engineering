@@ -1,0 +1,6 @@
+<h1>Legacy Data Uploader</h1>
+<%= form_tag(uploads_path, id: 'upload', multipart: true) do %>
+  <p>Choose a file to upload, then click Upload.</p>
+  <%= file_field_tag 'datafile' %>
+  <%= submit_tag 'Upload' %>
+<% end %>
