@@ -12,7 +12,7 @@ describe UploadsController do
   describe "POST 'create'" do
     it "returns http success" do
       post 'create'
-      response.should be_success
+      response.should redirect_to(new_upload_path)
     end
   end
 
