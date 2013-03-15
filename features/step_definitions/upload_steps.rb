@@ -16,5 +16,5 @@ end
 
 Then(/^I should see the total gross revenue$/) do
   flash = page.find("#flash_notice")
-  flash.should have_content 'total gross revenue is $1,000.00'
+  flash.should have_content 'total gross revenue is $95.00'
 end
