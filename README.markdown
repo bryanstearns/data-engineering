@@ -1,43 +1,69 @@
-# Challenge for Software Engineer - Big Data 
-To better assess a candidates development skills, we would like to provide the following challenge.  You have as much time as you'd like (though we ask that you not spend more than a few hours).
-
-There are three jobs that both use this challenge:
-
-1. Senior Software Engineer: If you are applying to this position, the email address you should use for submission is [dev.challenges@livingsocial.com](dev.challenges@livingsocial.com).  You must use either Ruby/Ruby on Rails or Scala/Play2.0.
-1. Senior Software Engineer, Big Data (and/or Data Scientist): If you are applying to this position, the email address you should use for submission is [data.challenge@livingsocial.com](mailto:data.challenge@livingsocial.com).  You may use any programming language or framework you'd like.
-
-Feel free to email the appropriate address above if you have any questions.
-
-## Submission Instructions
-1. First, fork this project on github.  You will need to create an account if you don't already have one.
-1. Next, complete the project as described below within your fork.
-1. Finally, push all of your changes to your fork on github and submit a pull request.  You should also email the appropriate address listed in the first section and your recruiter to let them know you have submitted a solution.  Make sure to include your github username in your email (so we can match people with pull requests).
-
-## Alternate Submission Instructions (if you don't want to publicize completing the challenge)
-1. Clone the repository
-1. Next, complete your project as described below within your local repository
-1. Email a patch file to the appropriate address listed above ([data.challenge@livingsocial.com](mailto:data.challenge@livingsocial.com) if you are applying for the Big Data position, [dev.challenges@livingsocial.com](dev.challenges@livingsocial.com) if you are applying for the general Senior Software Engineer or Associate Developer position).
+# Challenge for Software Engineer - Bryan Stearns
 
 ## Project Description
 Imagine that LivingSocial has just acquired a new company.  Unfortunately, the company has never stored their data in a database and instead uses a plain text file.  We need to create a way for the new subsidiary to import their data into a database.  Your task is to create a web interface that accepts file uploads, normalizes the data, and then stores it in a relational database.
 
-Here's what your web-based application must do:
+The application:
 
-1. Your app must accept (via a form) a tab delimited file with the following columns: purchaser name, item description, item price, purchase count, merchant address, and merchant name.  You can assume the columns will always be in that order, that there will always be data in each column, and that there will always be a header line.  An example input file named example_input.tab is included in this repo.
-1. Your app must parse the given file, normalize the data, and store the information in a relational database.
-1. After upload, your application should display the total amount gross revenue represented by the uploaded file.
+1. Accepts (via a form) a tab delimited file with the following columns: purchaser name, item description, item price, purchase count, merchant address, and merchant name.  I've assumed the columns will always be in that order, that there will always be data in each column, and that there will always be a header line.  An example input file named example_input.tab is included in this repo.
+1. Parses the given file, normalizes the data, and stores the information in a relational database.
+1. After upload, displays the total amount gross revenue represented by the uploaded file.
 
-Your application does not need to:
+The application:
 
-1. handle authentication or authorization (bonus points if it does, extra bonus points if authentication is via OpenID)
-1. be written with any particular language or framework
-1. be aesthetically pleasing
+1. does not handle authentication or authorization, even though this might've gotten me bonus points
+1. is not written in the simplest possible framework (I'm better at Rails than Sinatra, though if a tiny app like this were going to live a long life, it might be more appropriately written in a lighter-weight framework!)
+1. is not aesthetically pleasing (I could've installed Twitter Bootstrap, but as with authentication, you'd just be evaluating my ability to install and configure others' gems).
 
-Your application should be easy to set up and should run on either Linux or Mac OS X.  It should not require any for-pay software.
+## Setup
 
-## Evaluation
-Evaluation of your submission will be based on the following criteria. Additionally, reviewers will attempt to assess your familiarity with standard libraries. If your code submission is in Ruby, reviewers will attempt to assess your experience with object-oriented programming based on how you've structured your submission.
+First, install Ruby 1.9.3 (p392 or newer) if you don't have it already. There are installation instructions here: http://www.ruby-lang.org/en/downloads/
 
-1. Did your application fulfill the basic requirements?
-1. Did you document the method for setting up and running your application?
-1. Did you follow the instructions for submission?
+Then, in a command shell:
+
+1. Clone the project from Github:
+```
+$ git clone git://github.com/bryanstearns/data-engineering.git
+```
+
+1. cd into the directory created and run Bundler to install the project's dependencies:
+```
+$ bundle --binstubs
+```
+
+1. Create the database:
+```
+$ bin/rake db:migrate
+```
+
+1. Start a server for the application:
+```
+$ bin/rails server
+```
+
+1. Click on this link to view the application in your browser: [http://localhost:3000/](http://localhost:3000/) (You'll find a sample file to upload, example_input.tab, in the project directory.)
+
+After you've tried it, you might enjoy running the tests:
+
+1. Make the test database match the development database
+```
+$ bin/rake db:test:clone
+```
+
+1. Run them -- they're the default Rake task, so it's just:
+```
+$ bin/rake
+```
+
+## Decisions, decisions
+
+As a programming challenge, this project was completed in a vacuum, without the luxury of being able to ask clarifying questions. I made a few choices:
+
+- Normalization: the task called for normalized data. I elected to think of two merchants with the same name but different addresses as distinct merchants; likewise, I chose to consider two products with different prices as distinct products.
+
+- Error handling: I was told I could assume the file structure, so I successfully resisted the temptation to verify it and report errors, though these would be desirable.
+
+- Data size: By default, Rails only provides a way to read all of an uploaded file; real-world data could easily strain memory. Alternate solutions exist, but I didn't try them.
+
+Thanks for your consideration!
+...Bryan
